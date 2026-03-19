@@ -1,285 +1,423 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
 
 <head>
-    <link rel="shortcut icon" href="/moon21_favicon.png" type="image/png">
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Portfolio - Nefodov</title>
-    <style type="text/css">
-        body,
-        html {
-            height: 100%;
-            background-color: #151515;
+    <link rel="icon" href="/moon21_favicon.png" type="image/png">
+    <style>
+        :root {
+            --page-bg-top: #001e1f;
+            --page-bg-bottom: #151515;
+            --text-color: #151515;
+            --link-color: #1a1a1a;
+            --link-hover-color: #008689;
+            --surface-color: #ffffff;
+            --separator-color: #d6d6d6;
+            --summary-text-color: #ffffff;
+            --summary-bg: #424242;
+            --summary-bg-open: #999999;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         html {
             overflow-x: hidden;
         }
 
-        preview img {
-            width: 200px;
-            height: 200px;
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 24px 12px;
+            font-family: Arial, sans-serif;
+            background:
+                linear-gradient(180deg, var(--page-bg-top) 0%, var(--page-bg-bottom) 80%);
+            color: var(--text-color);
         }
 
-        ios {
-            float: left;
-            background-image: url(images/ios.png);
-            width: 30px;
-            height: 30px;
-            background-size: cover;
-            margin-left: 3px;
-            margin-right: 3px;
+        a {
+            color: var(--link-color);
         }
 
-        android {
-            float: left;
-            background-image: url(images/android.png);
-            width: 30px;
-            height: 30px;
-            background-size: cover;
-            margin-left: 3px;
-            margin-right: 3px;
+        a:hover,
+        a:focus-visible {
+            color: var(--link-hover-color);
         }
 
-        .hide {
-            display: none;
-        }
-
-        .hide:not(:checked)+label+* {
-            display: none;
-        }
-
-        .hide:not(:checked)+label,
-        .hide:checked+label {
-            margin: 0 auto;
-            width: fit-content;
+        img {
             display: block;
+            max-width: 100%;
+        }
+
+        .container {
+            width: min(100%, 600px);
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--surface-color);
+            border-radius: 4px;
+        }
+
+        .site-header {
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 18px;
+        }
+
+        .site-header::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--separator-color) 20%, var(--separator-color) 80%, transparent);
+        }
+
+        .site-header h1 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .project-list {
+            display: grid;
+            gap: 18px;
+        }
+
+        .project {
+            display: grid;
+            grid-template-columns: 240px minmax(0, 1fr);
+            gap: 16px;
+            align-items: start;
+            padding-bottom: 18px;
+            position: relative;
+        }
+
+        .project::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--separator-color) 20%, var(--separator-color) 80%, transparent);
+        }
+
+        .project__image img {
+            width: 240px;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        .project__title {
+            margin: 0 0 16px;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.35;
+        }
+
+        .project__name {
+            font-weight: 700;
+        }
+
+        .project__company {
+            display: block;
+            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        .project__description {
+            margin: 0 0 12px;
+            line-height: 1.4;
+        }
+
+        .store-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .store-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 30px;
+            text-decoration: none;
+        }
+
+        .store-link img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .more-projects {
+            margin-top: 20px;
+        }
+
+        .more-projects summary {
+            width: fit-content;
+            margin: 0 auto;
             padding: 2px 20px;
             border-radius: 2px;
-            color: #fff;
-            background: #424242;
+            color: var(--summary-text-color);
+            background: var(--summary-bg);
             cursor: pointer;
-            margin-bottom: 3px;
         }
 
-        .hide:checked+label {
-            background: #999999;
+        .more-projects[open] summary {
+            background: var(--summary-bg-open);
         }
 
-        #container {
-            position: absolute top;
-            margin: 0 auto;
-            float: center;
-            width: 460px;
-            background: #ffffff;
-            border-radius: 4px;
-            padding: 20px 20px;
+        .more-projects__content {
+            display: grid;
+            gap: 18px;
+            margin-top: 16px;
+        }
+
+        .contact {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .contact p {
+            margin: 8px 0;
+            font-size: 0.875rem;
+        }
+
+        .contact__linkedin {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .contact__linkedin img {
+            width: 16px;
+            height: 16px;
+        }
+
+        @media (max-width: 540px) {
+            body {
+                padding: 8px 24px;
+            }
+
+            .container {
+                width: 100%;
+                padding: 16px;
+            }
+
+            .project {
+                grid-template-columns: 1fr;
+            }
+
+            .project__image img {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1 / 1;
+            }
         }
     </style>
 </head>
 
-<body align="center">
-    <link rel="shortcut icon" href="/moon21_favicon.png" type="image/png">
-    <title>Portfolio - Nefodov</title>
-    <div id="container">
-        <table style="text-align: left; margin-left: auto; margin-right: auto;" border="0" cellpadding="1"
-            cellspacing="1">
-            <tbody>
-                <tr>
-                    <td>
-                        <preview><img src="images/Skies.png"></preview>
-                    </td>
-                    <td>
-                        <p><b>Skiesverse</b> (<a href="https://galaxy4games.com//">Galaxy4Games</a>)</p>
-                        <p>Tactical RPG, webGL. UI, overall programming
-                        </p>
-                        <br>
-                        <a target="_blank" title="AppStore" alt="AppStore"
-                            href="https://apps.apple.com/us/app/skiesverse/id6484269802">
-                            <ios></ios>
-                        </a>
-                        <a target="_blank" title="PlayMarket" alt="PlayMarket"
-                            href="https://play.google.com/store/apps/details?id=com.Galaxy4Games.Skiesverse">
-                            <android></android>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <preview><img src="images/ApesTD.png"></preview>
-                    </td>
-                    <td>
-                        <p><b>Apes: TD</b> (<a href="https://www.apesrevenge.com/">Veryo Studios</a>)</p>
-                        <p>Shooter, Tower Defence, mobile, soft launch.
-                            UI, gameplay, optimization, overall programming.
-                        </p>
-                        <br>
-                        <a target="_blank" title="AppStore" alt="AppStore"
-                            href="https://apps.apple.com/il/app/apes-td/id6446364887">
-                            <ios></ios>
-                        </a>
-                        <a target="_blank" title="PlayMarket" alt="PlayMarket"
-                            href="https://play.google.com/store/apps/details?id=com.veryo.apestd">
-                            <android></android>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <preview><img src="images/Journey.png"></preview>
-                    </td>
-                    <td>
-                        <p><b>Journey: love and puzzles</b> (<a href="https://www.whaleapp.com/">Whaleapp</a>)</p>
-                        <p>match-3 with city-building, mobile, soft launch.
-                            Lead Developer on project.
-                        </p>
-                        <br>
-                        <!--<a target="_blank" title="PlayMarket" alt="PlayMarket"
-                            href="https://play.google.com/store/apps/details?id=com.whaleapp.journey.love.puzzles.brilliant.family.match.game">
-                            <android></android>
-                        </a>-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <preview><img src="images/FamilyZoo.png"></preview>
-                    </td>
-                    <td>
-                        <p><b>Family Zoo: The Story</b> (<a href="https://www.whaleapp.com/">Whaleapp</a>)</p>
-                        <p>Match-3 with story, mobile, 10kk+ downloads.
-                            Developer, Lead Developer since 2019.
-                        </p>
-                        <br>
-                        <a target="_blank" title="AppStore" alt="AppStore"
-                            href="https://itunes.apple.com/app/id1228655110">
-                            <ios></ios>
-                        </a>
-                        <a target="_blank" title="PlayMarket" alt="PlayMarket"
-                            href="https://play.google.com/store/apps/details?id=com.plarium.zoo">
-                            <android></android>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <preview><img src="images/RambleBoom.png"></preview>
-                    </td>
-                    <td>
-                        <p><b>RambleBoom</b> (<a
-                                href="https://www.facebook.com/BIT-Media-Games-1231907333501341/">media5</a>)</p>
-                        <p>Flail fights.</p>
-                        <br>
-                        <a target="_blank" title="AppStore" alt="AppStore"
-                            href="https://itunes.apple.com/app/id1134985969">
-                            <ios></ios>
-                        </a>
-                        <!--<a target="_blank" title="PlayMarket" alt="PlayMarket"
-                            href="https://play.google.com/store/apps/details?id=com.media5.RambleBoom">
-                            <android></android>
-                        </a>-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <preview><img src="images/SkiRaceClub.png"></preview>
-                    </td>
-                    <td>
-                        <p><b>Ski Race Club</b> (<a
-                                href="https://www.facebook.com/BIT-Media-Games-1231907333501341/">media5</a>)</p>
-                        <br>
-                        <a target="_blank" title="AppStore" alt="AppStore"
-                            href="https://itunes.apple.com/app/id1107517821">
-                            <ios></ios>
-                        </a>
-                        <!--<a target="_blank" title="PlayMarket" alt="PlayMarket"
-                            href="https://play.google.com/store/apps/details?id=com.media5.skiraceclub">
-                            <android></android>
-                        </a>-->
-                    </td>
-                </tr>
-            </table>
-            <input type="checkbox" id="raz" class="hide" /><label for="raz" class="hide">more</label>
-            <div>
-                <table style="text-align: left; margin-left: auto; margin-right: auto;" border="0" cellpadding="1"
-                    cellspacing="1">
-                <tr>
-                    <td>
-                        <preview><img src="images/BalloonsForKids.png"></preview>
-                    </td>
-                    <td>
-                        <p><b>Balloons For Kids</b> (<a
-                                href="https://www.facebook.com/BIT-Media-Games-1231907333501341/">media5</a>)</p>
-                        <br>
-                        <!--<a  target="_blank" title="AppStore"  alt="AppStore" href="https://itunes.apple.com/app/"><ios></ios></a>-->
-                        <!--<a target="_blank" title="PlayMarket" alt="PlayMarket"
-                            href="https://play.google.com/store/apps/details?id=com.gamesm5.BalloonsForKidsFree">
-                            <android></android>
-                        </a>-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <preview><img src="images/RallyRacingDrift.png"></preview>
-                    </td>
-                    <td>
-                        <p><b>Rally Racing Drift</b> (<a
-                                href="https://www.facebook.com/BIT-Media-Games-1231907333501341/">media5</a>)</p>
-                        <br>
-                        <!--<a target="_blank" title="AppStore" alt="AppStore"
-                            href="https://itunes.apple.com/app/id1080685039">
-                            <ios></ios>
-                        </a>-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <preview><img src="images/UpperCut.png"></preview>
-                    </td>
-                    <td>
-                        <p><b>UpperCut</b> (<a
-                                href="https://www.facebook.com/BIT-Media-Games-1231907333501341/">media5</a>)</p>
-                        <br>
-                        <a target="_blank" title="AppStore" alt="AppStore"
-                            href="https://itunes.apple.com/app/id1091624780">
-                            <ios></ios>
-                        </a>
-                        <!--<a target="_blank" title="PlayMarket" alt="PlayMarket"
-                            href="https://play.google.com/store/apps/details?id=com.BMG.UpperCUT">
-                            <android></android>
-                        </a>-->
-                    </td>
-                </tr>
-                <tr>
-                    <td><preview><img src="images/SnakeAdventure.png"></preview></td>
-                    <td>
-                        <p><b>Snake Adventure</b></p>
-                        <p>A mix of Snake and puzzle.</p>
-                        <p>With level editor.</p>
-                        <p>The goal is to collect all the fruits. Controlled with the keyboard or by swiping sideways.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td><preview><img src="images/3Swipe.png"></preview></td>
-                    <td>
-                        <p><b>Match-3</b></p>
-                        <p>Move the lines, match colors in a row.</p>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <p style="text-align: center;">
-            <font size="2">Phone number: +380(95)343-22-63</font>
-        </p>
-        <p style="text-align: center;">
-            <font size="2">Mail: <a href="mailto:oleksii.nefodov@gmail.com">oleksii.nefodov@gmail.com</a></font>
-        </p>
-        <div style="text-align: center;">
-        <a href="https://ua.linkedin.com/in/nefodov"><img alt=""
-                    src="https://static.licdn.com/scds/common/u/images/logos/favicons/v1/favicon.ico" height="16"
-                    width="16"></a>
-        </div>
-        <p style="text-align: center;"><b>Nefodov Oleksii</b></p>
+<body>
+    <div class="container">
+        <header class="site-header">
+            <h1>Nefodov Oleksii</h1>
+        </header>
+
+        <main>
+            <section class="project-list" aria-label="Portfolio projects">
+                <article class="project">
+                    <div class="project__image">
+                        <img src="images/Skies.png" alt="Skiesverse preview">
+                    </div>
+                    <div class="project__content">
+                        <h2 class="project__title"><span class="project__name">Skiesverse</span><span class="project__company">(<a href="https://galaxy4games.com/" target="_blank" rel="noopener noreferrer">Galaxy4Games</a>)</span></h2>
+                        <p class="project__description">Tactical RPG, WebGL. UI, overall programming.</p>
+                        <div class="store-links">
+                            <a class="store-link" href="https://apps.apple.com/us/app/skiesverse/id6484269802" target="_blank" rel="noopener noreferrer" aria-label="Skiesverse on the App Store">
+                                <img src="images/ios.png" alt="">
+                                <span class="visually-hidden">App Store</span>
+                            </a>
+                            <a class="store-link" href="https://play.google.com/store/apps/details?id=com.Galaxy4Games.Skiesverse" target="_blank" rel="noopener noreferrer" aria-label="Skiesverse on Google Play">
+                                <img src="images/android.png" alt="">
+                                <span class="visually-hidden">Google Play</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project">
+                    <div class="project__image">
+                        <img src="images/ApesTD.png" alt="Apes: TD preview">
+                    </div>
+                    <div class="project__content">
+                        <h2 class="project__title"><span class="project__name">Apes: TD</span><span class="project__company">(<a href="https://www.apesrevenge.com/" target="_blank" rel="noopener noreferrer">Veryo Studios</a>)</span></h2>
+                        <p class="project__description">Shooter, Tower Defence, mobile, soft launch. UI, gameplay, optimization, overall programming.</p>
+                        <div class="store-links">
+                            <a class="store-link" href="https://apps.apple.com/il/app/apes-td/id6446364887" target="_blank" rel="noopener noreferrer" aria-label="Apes: TD on the App Store">
+                                <img src="images/ios.png" alt="">
+                                <span class="visually-hidden">App Store</span>
+                            </a>
+                            <a class="store-link" href="https://play.google.com/store/apps/details?id=com.veryo.apestd" target="_blank" rel="noopener noreferrer" aria-label="Apes: TD on Google Play">
+                                <img src="images/android.png" alt="">
+                                <span class="visually-hidden">Google Play</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project">
+                    <div class="project__image">
+                        <img src="images/Journey.png" alt="Journey: Love and Puzzles preview">
+                    </div>
+                    <div class="project__content">
+                        <h2 class="project__title"><span class="project__name">Journey: love and puzzles</span><span class="project__company">(<a href="https://www.whaleapp.com/" target="_blank" rel="noopener noreferrer">Whaleapp</a>)</span></h2>
+                        <p class="project__description">match-3 with city-building, mobile, soft launch. Lead Developer on project.</p>
+                    </div>
+                </article>
+
+                <article class="project">
+                    <div class="project__image">
+                        <img src="images/FamilyZoo.png" alt="Family Zoo: The Story preview">
+                    </div>
+                    <div class="project__content">
+                        <h2 class="project__title"><span class="project__name">Family Zoo: The Story</span><span class="project__company">(<a href="https://www.whaleapp.com/" target="_blank" rel="noopener noreferrer">Whaleapp</a>)</span></h2>
+                        <p class="project__description">Match-3 with story, mobile, 10kk+ downloads. Developer, Lead Developer since 2019.</p>
+                        <div class="store-links">
+                            <a class="store-link" href="https://itunes.apple.com/app/id1228655110" target="_blank" rel="noopener noreferrer" aria-label="Family Zoo: The Story on the App Store">
+                                <img src="images/ios.png" alt="">
+                                <span class="visually-hidden">App Store</span>
+                            </a>
+                            <a class="store-link" href="https://play.google.com/store/apps/details?id=com.plarium.zoo" target="_blank" rel="noopener noreferrer" aria-label="Family Zoo: The Story on Google Play">
+                                <img src="images/android.png" alt="">
+                                <span class="visually-hidden">Google Play</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project">
+                    <div class="project__image">
+                        <img src="images/RambleBoom.png" alt="RambleBoom preview">
+                    </div>
+                    <div class="project__content">
+                        <h2 class="project__title"><span class="project__name">RambleBoom</span><span class="project__company">(<a href="https://www.facebook.com/BIT-Media-Games-1231907333501341/" target="_blank" rel="noopener noreferrer">media5</a>)</span></h2>
+                        <p class="project__description">Flail fights.</p>
+                        <div class="store-links">
+                            <a class="store-link" href="https://itunes.apple.com/app/id1134985969" target="_blank" rel="noopener noreferrer" aria-label="RambleBoom on the App Store">
+                                <img src="images/ios.png" alt="">
+                                <span class="visually-hidden">App Store</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project">
+                    <div class="project__image">
+                        <img src="images/SkiRaceClub.png" alt="Ski Race Club preview">
+                    </div>
+                    <div class="project__content">
+                        <h2 class="project__title"><span class="project__name">Ski Race Club</span><span class="project__company">(<a href="https://www.facebook.com/BIT-Media-Games-1231907333501341/" target="_blank" rel="noopener noreferrer">media5</a>)</span></h2>
+                        <div class="store-links">
+                            <a class="store-link" href="https://itunes.apple.com/app/id1107517821" target="_blank" rel="noopener noreferrer" aria-label="Ski Race Club on the App Store">
+                                <img src="images/ios.png" alt="">
+                                <span class="visually-hidden">App Store</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <details class="more-projects">
+                <summary>more</summary>
+                <div class="more-projects__content">
+                    <article class="project">
+                        <div class="project__image">
+                            <img src="images/BalloonsForKids.png" alt="Balloons For Kids preview">
+                        </div>
+                        <div class="project__content">
+                            <h2 class="project__title"><span class="project__name">Balloons For Kids</span><span class="project__company">(<a href="https://www.facebook.com/BIT-Media-Games-1231907333501341/" target="_blank" rel="noopener noreferrer">media5</a>)</span></h2>
+                        </div>
+                    </article>
+
+                    <article class="project">
+                        <div class="project__image">
+                            <img src="images/RallyRacingDrift.png" alt="Rally Racing Drift preview">
+                        </div>
+                        <div class="project__content">
+                            <h2 class="project__title"><span class="project__name">Rally Racing Drift</span><span class="project__company">(<a href="https://www.facebook.com/BIT-Media-Games-1231907333501341/" target="_blank" rel="noopener noreferrer">media5</a>)</span></h2>
+                        </div>
+                    </article>
+
+                    <article class="project">
+                        <div class="project__image">
+                            <img src="images/UpperCut.png" alt="UpperCut preview">
+                        </div>
+                        <div class="project__content">
+                            <h2 class="project__title"><span class="project__name">UpperCut</span><span class="project__company">(<a href="https://www.facebook.com/BIT-Media-Games-1231907333501341/" target="_blank" rel="noopener noreferrer">media5</a>)</span></h2>
+                            <div class="store-links">
+                                <a class="store-link" href="https://itunes.apple.com/app/id1091624780" target="_blank" rel="noopener noreferrer" aria-label="UpperCut on the App Store">
+                                    <img src="images/ios.png" alt="">
+                                    <span class="visually-hidden">App Store</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project">
+                        <div class="project__image">
+                            <img src="images/SnakeAdventure.png" alt="Snake Adventure preview">
+                        </div>
+                        <div class="project__content">
+                            <h2 class="project__title"><span class="project__name">Snake Adventure</span></h2>
+                            <p class="project__description">A mix of Snake and puzzle.</p>
+                            <p class="project__description">With level editor.</p>
+                            <p class="project__description">The goal is to collect all the fruits. Controlled with the keyboard or by swiping sideways.</p>
+                        </div>
+                    </article>
+
+                    <article class="project">
+                        <div class="project__image">
+                            <img src="images/3Swipe.png" alt="Match-3 preview">
+                        </div>
+                        <div class="project__content">
+                            <h2 class="project__title"><span class="project__name">Match-3</span></h2>
+                            <p class="project__description">Move the lines, match colors in a row.</p>
+                        </div>
+                    </article>
+                </div>
+            </details>
+        </main>
+
+        <footer class="contact">
+            <p>Phone number: <a href="tel:+380953432263">+380(95)343-22-63</a></p>
+            <p>Mail: <a href="mailto:oleksii.nefodov@gmail.com">oleksii.nefodov@gmail.com</a></p>
+            <p>
+                <a class="contact__linkedin" href="https://linkedin.com/in/nefodov" target="_blank" rel="noopener noreferrer">
+                    <img
+                        src="https://static.licdn.com/scds/common/u/images/logos/favicons/v1/favicon.ico"
+                        alt=""
+                        onerror="this.style.display='none'">
+                    <span>LinkedIn</span>
+                </a>
+            </p>
+            <p><strong>Nefodov Oleksii</strong></p>
+        </footer>
     </div>
 </body>
 
